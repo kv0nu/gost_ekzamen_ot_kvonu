@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Тест-тренажёр | Математика</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <!-- ===== HOME SCREEN ===== -->
+  <section class="screen screen--home active" id="screen-home">
+    <div class="home-wrap">
+      <div class="brand">
+        <div class="brand-badge">Σ</div>
+        <h1>Тест-тренажёр</h1>
+        <p class="subtitle">Подготовка к итоговой государственной аттестации<br>по направлению «Математика»</p>
+      </div>
+
+      <div class="pool-info">
+        <span id="pool-total">450</span> вопросов в базе
+      </div>
+
+      <h2 class="section-title">Выберите количество вопросов</h2>
+      <div class="count-grid" id="count-grid">
+        <button class="count-card" data-count="50">
+          <span class="count-num">50</span>
+          <span class="count-label">вопросов</span>
+        </button>
+        <button class="count-card" data-count="100">
+          <span class="count-num">100</span>
+          <span class="count-label">вопросов</span>
+        </button>
+        <button class="count-card" data-count="200">
+          <span class="count-num">200</span>
+          <span class="count-label">вопросов</span>
+        </button>
+        <button class="count-card" data-count="450">
+          <span class="count-num">450</span>
+          <span class="count-label">все вопросы</span>
+        </button>
+      </div>
+
+      <button class="btn btn-primary btn-start" id="btn-start" disabled>Начать тест</button>
+
+      <div class="home-hint">Вопросы и варианты ответов перемешиваются случайным образом при каждом запуске</div>
+    </div>
+  </section>
+
+  <!-- ===== QUIZ SCREEN ===== -->
+  <section class="screen screen--quiz" id="screen-quiz">
+    <header class="quiz-header">
+      <button class="icon-btn" id="btn-quit" title="Завершить и выйти">✕</button>
+      <div class="quiz-progress-wrap">
+        <div class="quiz-progress-top">
+          <span id="quiz-position">Вопрос 1 из 50</span>
+          <span id="quiz-timer" class="quiz-timer">00:00</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+      <button class="icon-btn flag-btn" id="btn-flag" title="Отметить вопрос">☆</button>
+    </header>
+
+    <div class="quiz-body">
+      <div class="question-card" id="question-card">
+        <div class="question-meta">
+          <div class="question-number" id="question-number">1</div>
+          <div class="question-source" id="question-source">№ 1 в базе</div>
+        </div>
+        <div class="question-text" id="question-text"></div>
+        <div class="options" id="options"></div>
+      </div>
+    </div>
+
+    <footer class="quiz-footer">
+      <button class="btn btn-ghost" id="btn-prev">← Назад</button>
+      <button class="btn btn-nav-open" id="btn-nav-open">Все вопросы</button>
+      <button class="btn btn-primary" id="btn-next">Далее →</button>
+    </footer>
+  </section>
+
+  <!-- ===== NAVIGATOR OVERLAY ===== -->
+  <div class="overlay" id="nav-overlay">
+    <div class="overlay-panel">
+      <div class="overlay-head">
+        <h3>Навигация по вопросам</h3>
+        <button class="icon-btn" id="btn-nav-close">✕</button>
+      </div>
+      <div class="nav-legend">
+        <span><i class="dot dot-answered"></i>Отвечено</span>
+        <span><i class="dot dot-current"></i>Текущий</span>
+        <span><i class="dot dot-flagged"></i>Отмечен</span>
+        <span><i class="dot dot-empty"></i>Пропущен</span>
+      </div>
+      <div class="nav-grid" id="nav-grid"></div>
+      <button class="btn btn-primary btn-finish" id="btn-finish">Завершить тест</button>
+    </div>
+  </div>
+
+  <!-- ===== RESULT SCREEN ===== -->
+  <section class="screen screen--result" id="screen-result">
+    <div class="result-wrap">
+      <div class="result-ring-wrap">
+        <svg class="result-ring" viewBox="0 0 200 200">
+          <circle class="ring-bg" cx="100" cy="100" r="88"></circle>
+          <circle class="ring-fg" id="ring-fg" cx="100" cy="100" r="88"></circle>
+        </svg>
+        <div class="result-percent" id="result-percent">0%</div>
+      </div>
+      <h2 class="result-title" id="result-title">Тест завершён</h2>
+      <p class="result-sub" id="result-sub">Правильных ответов: 0 из 0</p>
+
+      <div class="result-stats">
+        <div class="stat-box stat-correct">
+          <div class="stat-num" id="stat-correct">0</div>
+          <div class="stat-label">Верно</div>
+        </div>
+        <div class="stat-box stat-wrong">
+          <div class="stat-num" id="stat-wrong">0</div>
+          <div class="stat-label">Неверно</div>
+        </div>
+        <div class="stat-box stat-time">
+          <div class="stat-num" id="stat-time">00:00</div>
+          <div class="stat-label">Время</div>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn btn-primary" id="btn-review">Разбор ошибок</button>
+        <button class="btn btn-ghost" id="btn-retry-wrong" style="display:none;">Пройти ошибки заново</button>
+        <button class="btn btn-secondary" id="btn-restart">Пройти новый тест</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== REVIEW SCREEN ===== -->
+  <section class="screen screen--review" id="screen-review">
+    <header class="review-header">
+      <button class="icon-btn" id="btn-review-back">←</button>
+      <h2>Разбор ошибок</h2>
+      <div class="review-filter">
+        <button class="chip chip-active" data-filter="wrong">Ошибки</button>
+        <button class="chip" data-filter="all">Все</button>
+      </div>
+    </header>
+    <div class="review-list" id="review-list"></div>
+  </section>
+
+  <footer class="site-footer">Сайт создан <a href="https://t.me/kvonu" target="_blank" rel="noopener">@kvonu</a></footer>
+</div>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
